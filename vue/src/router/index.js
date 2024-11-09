@@ -68,7 +68,18 @@ const routes = [
             },
             {path: 'type', name: 'Type', meta: {name: '实验室分类'}, component: () => import('../views/manager/Type')},
             {path: 'lab', name: 'Lab', meta: {name: '实验室信息'}, component: () => import('../views/manager/Lab')},
-            { path: 'labStudent', name: 'LabStudent', meta: { name: '实验室信息' }, component: () => import('../views/manager/LabStudent') },
+            {
+                path: 'labStudent',
+                name: 'LabStudent',
+                meta: {name: '实验室信息'},
+                component: () => import('../views/manager/LabStudent')
+            },
+            {
+                path: 'reserve',
+                name: 'Reserve',
+                meta: {name: '预约记录'},
+                component: () => import('../views/manager/Reserve')
+            },
         ]
     },
     {

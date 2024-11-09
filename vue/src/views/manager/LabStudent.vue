@@ -13,10 +13,10 @@
         <el-row :gutter="20">
           <el-col :span="5" v-for="item in tableData">
             <div style="background-color: #ecf7fc" class="card">
-              <div style="color: #474849">实验室编号：
+              <div style="color: #474849">实验室名称：
                 <span style="font-size: 16px; font-weight: 550; color: #0376bf">{{ item.name }}</span>
               </div>
-              <div style="color: #474849; margin-top: 10px">名称：{{ item.descr }}</div>
+              <div style="color: #474849; margin-top: 10px">描述：{{ item.descr }}</div>
               <div style="color: #474849; margin-top: 5px">类型：{{ item.typeName }}</div>
               <div style="color: #474849; margin-top: 5px">状态：
                 <span style="font-weight: 550; color: #3c9e25" v-if="item.status === '空闲中'">{{ item.status }}</span>
@@ -24,7 +24,7 @@
               </div>
               <div style="color: #474849; margin-top: 10px">开放时间：{{ item.start }} - {{ item.end }}</div>
               <div style="margin-top: 15px">
-                <el-button type="primary" size="mini">预约</el-button>
+                <el-button type="primary" size="mini" :disabled="item.status === '使用中'" @click="reserve(item)">预约</el-button>
               </div>
             </div>
           </el-col>
@@ -46,6 +46,7 @@
 </template>
 
 <script>
+
 export default {
   name: "Lab",
   data() {
@@ -67,6 +68,23 @@ export default {
     this.loadType()
   },
   methods: {
+    reserve(item) {
+      let data = {
+        labId: item.id,
+        labadminId: item.labadminId,
+        studentId: this.user.id,
+        status: '待审核',
+        dostatus: '待审核'
+      }
+      this.$request.post('/reserve/add', data).then(res => {
+        if (res.code === '200') {
+          this.$message.success('操作成功，等待管理员审核')
+          this.load(1)
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
     loadType() {
       this.$request.get('/type/selectAll').then(res => {
         if (res.code === '200') {
