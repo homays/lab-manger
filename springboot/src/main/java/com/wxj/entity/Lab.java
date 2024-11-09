@@ -2,7 +2,7 @@ package com.wxj.entity;
 
 import java.io.Serializable;
 
-public class Type implements Serializable {
+public class Lab implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -11,8 +11,13 @@ public class Type implements Serializable {
     private Integer id;
     private String name;
     private String descr;
+    private String start;
+    private String end;
+    private String status;
+    private Integer typeId;
     private Integer labadminId;
 
+    private String typeName;
     private String labadminName;
 
     public Integer getId() {
@@ -39,12 +44,52 @@ public class Type implements Serializable {
         this.descr = descr;
     }
 
+    public String getStart() {
+        return start;
+    }
+
+    public void setStart(String start) {
+        this.start = start;
+    }
+
+    public String getEnd() {
+        return end;
+    }
+
+    public void setEnd(String end) {
+        this.end = end;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Integer getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(Integer typeId) {
+        this.typeId = typeId;
+    }
+
     public Integer getLabadminId() {
         return labadminId;
     }
 
     public void setLabadminId(Integer labadminId) {
         this.labadminId = labadminId;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 
     public String getLabadminName() {

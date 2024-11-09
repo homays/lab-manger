@@ -15,6 +15,8 @@ public enum ResultCodeEnum {
     USER_NOT_EXIST_ERROR("5004", "用户不存在"),
     PARAM_PASSWORD_ERROR("5005", "原密码输入错误"),
     TYPE_EXIST_ERROR("5006", "分类已存在"),
+    TYPE_NO_ERROR("5007", "分类不存在"),
+    TYPE_LABADMIN_NO_ERROR("5008", "实验室管理员不存在")
     ;
 
     public String code;

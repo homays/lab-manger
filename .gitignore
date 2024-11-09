@@ -1,4 +1,4 @@
 /vue/node_modules/
 /.idea/
 /springboot/target/
-/vue/.idea/workspace.xml
+/vue/.idea/*
