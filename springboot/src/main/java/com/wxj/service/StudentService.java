@@ -6,9 +6,12 @@ import com.github.pagehelper.PageInfo;
 import com.wxj.common.Constants;
 import com.wxj.common.enums.ResultCodeEnum;
 import com.wxj.common.enums.RoleEnum;
+import com.wxj.entity.Account;
 import com.wxj.entity.Student;
 import com.wxj.exception.CustomException;
 import com.wxj.mapper.StudentMapper;
+import com.wxj.utils.TokenUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,6 +22,27 @@ public class StudentService {
 
     @Resource
     private StudentMapper studentMapper;
+
+    public Account login(Account account) {
+        Account dbStudent = studentMapper.selectByUsername(account.getUsername());
+        if (ObjectUtil.isNull(dbStudent)) {
+            throw new CustomException(ResultCodeEnum.USER_NOT_EXIST_ERROR);
+        }
+        if (!account.getPassword().equals(dbStudent.getPassword())) {
+            throw new CustomException(ResultCodeEnum.USER_ACCOUNT_ERROR);
+        }
+        // 生成token
+        String tokenData = dbStudent.getId() + "-" + RoleEnum.STUDENT.name();
+        String token = TokenUtils.createToken(tokenData, dbStudent.getPassword());
+        dbStudent.setToken(token);
+        return dbStudent;
+    }
+
+    public void register(Account account) {
+        Student student = new Student();
+        BeanUtils.copyProperties(account, student);
+        add(student);
+    }
 
     /**
      * 新增

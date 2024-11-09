@@ -7,6 +7,8 @@ import com.wxj.common.enums.ResultCodeEnum;
 import com.wxj.common.enums.RoleEnum;
 import com.wxj.entity.Account;
 import com.wxj.service.AdminService;
+import com.wxj.service.LabadminService;
+import com.wxj.service.StudentService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -19,6 +21,10 @@ public class WebController {
 
     @Resource
     private AdminService adminService;
+    @Resource
+    private LabadminService labadminService;
+    @Resource
+    private StudentService studentService;
 
     @GetMapping("/")
     public Result hello() {
@@ -30,13 +36,19 @@ public class WebController {
      */
     @PostMapping("/login")
     public Result login(@RequestBody Account account) {
+        String role = account.getRole();
         if (ObjectUtil.isEmpty(account.getUsername()) || ObjectUtil.isEmpty(account.getPassword())
-                || ObjectUtil.isEmpty(account.getRole())) {
+                || ObjectUtil.isEmpty(role)) {
             return Result.error(ResultCodeEnum.PARAM_LOST_ERROR);
         }
-        if (RoleEnum.ADMIN.name().equals(account.getRole())) {
+        if (RoleEnum.ADMIN.name().equals(role)) {
             account = adminService.login(account);
+        } else if (RoleEnum.LABADMIN.name().equals(account.getRole())) {
+            account = labadminService.login(account);
+        } else if (RoleEnum.STUDENT.name().equals(account.getRole())) {
+            account = studentService.login(account);
         }
+
         return Result.success(account);
     }
 
@@ -51,6 +63,8 @@ public class WebController {
         }
         if (RoleEnum.ADMIN.name().equals(account.getRole())) {
             adminService.register(account);
+        } else if (RoleEnum.STUDENT.name().equals(account.getRole())) {
+            studentService.register(account);
         }
         return Result.success();
     }

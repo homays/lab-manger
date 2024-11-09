@@ -8,6 +8,8 @@ import com.wxj.common.Constants;
 import com.wxj.common.enums.RoleEnum;
 import com.wxj.entity.Account;
 import com.wxj.service.AdminService;
+import com.wxj.service.LabadminService;
+import com.wxj.service.StudentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -31,10 +33,19 @@ public class TokenUtils {
 
     @Resource
     AdminService adminService;
+    private static LabadminService staticLabadminService;
+    private static StudentService staticStudentService;
+
+    @Resource
+    LabadminService labadminService;
+    @Resource
+    StudentService studentService;
 
     @PostConstruct
     public void setUserService() {
         staticAdminService = adminService;
+        staticLabadminService = labadminService;
+        staticStudentService = studentService;
     }
 
     /**
@@ -59,6 +70,10 @@ public class TokenUtils {
                 String role = userRole.split("-")[1];    // 获取角色
                 if (RoleEnum.ADMIN.name().equals(role)) {
                     return staticAdminService.selectById(Integer.valueOf(userId));
+                } else if (RoleEnum.LABADMIN.name().equals(role)) {
+                    return staticLabadminService.selectById(Integer.valueOf(userId));
+                } else if (RoleEnum.STUDENT.name().equals(role)) {
+                    return staticStudentService.selectById(Integer.valueOf(userId));
                 }
             }
         } catch (Exception e) {

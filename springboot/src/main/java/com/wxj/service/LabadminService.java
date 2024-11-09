@@ -6,9 +6,11 @@ import com.github.pagehelper.PageInfo;
 import com.wxj.common.Constants;
 import com.wxj.common.enums.ResultCodeEnum;
 import com.wxj.common.enums.RoleEnum;
+import com.wxj.entity.Account;
 import com.wxj.entity.Labadmin;
 import com.wxj.exception.CustomException;
 import com.wxj.mapper.LabadminMapper;
+import com.wxj.utils.TokenUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,6 +21,21 @@ public class LabadminService {
 
     @Resource
     private LabadminMapper labadminMapper;
+
+    public Account login(Account account) {
+        Account dbLabadmin = labadminMapper.selectByUsername(account.getUsername());
+        if (ObjectUtil.isNull(dbLabadmin)) {
+            throw new CustomException(ResultCodeEnum.USER_NOT_EXIST_ERROR);
+        }
+        if (!account.getPassword().equals(dbLabadmin.getPassword())) {
+            throw new CustomException(ResultCodeEnum.USER_ACCOUNT_ERROR);
+        }
+        // 生成token
+        String tokenData = dbLabadmin.getId() + "-" + RoleEnum.LABADMIN.name();
+        String token = TokenUtils.createToken(tokenData, dbLabadmin.getPassword());
+        dbLabadmin.setToken(token);
+        return dbLabadmin;
+    }
 
     /**
      * 新增
