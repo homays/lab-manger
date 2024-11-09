@@ -48,6 +48,12 @@ const routes = [
                 meta: {name: '实验室管理员'},
                 component: () => import('../views/manager/Labadmin')
             },
+            {
+                path: 'student',
+                name: 'Student',
+                meta: {name: '学生信息'},
+                component: () => import('../views/manager/Student')
+            },
         ]
     },
     {
