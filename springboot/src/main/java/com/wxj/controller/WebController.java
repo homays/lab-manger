@@ -80,6 +80,10 @@ public class WebController {
         }
         if (RoleEnum.ADMIN.name().equals(account.getRole())) {
             adminService.updatePassword(account);
+        } else if (RoleEnum.LABADMIN.name().equals(account.getRole())) {
+            labadminService.updatePassword(account);
+        } else if (RoleEnum.STUDENT.name().equals(account.getRole())) {
+            studentService.updatePassword(account);
         }
         return Result.success();
     }

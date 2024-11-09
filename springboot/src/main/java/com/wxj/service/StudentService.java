@@ -44,6 +44,18 @@ public class StudentService {
         add(student);
     }
 
+    public void updatePassword(Account account) {
+        Student dbStudent = studentMapper.selectByUsername(account.getUsername());
+        if (ObjectUtil.isNull(dbStudent)) {
+            throw new CustomException(ResultCodeEnum.USER_NOT_EXIST_ERROR);
+        }
+        if (!account.getPassword().equals(dbStudent.getPassword())) {
+            throw new CustomException(ResultCodeEnum.PARAM_PASSWORD_ERROR);
+        }
+        dbStudent.setPassword(account.getNewPassword());
+        studentMapper.updateById(dbStudent);
+    }
+
     /**
      * 新增
      */
