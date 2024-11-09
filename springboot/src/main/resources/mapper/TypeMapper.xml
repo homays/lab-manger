@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wxj.mapper.TypeMapper">
+
+    <sql id="Base_Column_List">
+        id,name,descr
+    </sql>
+
+    <select id="selectAll" resultType="com.wxj.entity.Type">
+        select
+        <include refid="Base_Column_List"/>
+        from type
+        <where>
+            <if test="id != null">and id= #{id}</if>
+            <if test="name != null">and type.name like concat('%', #{name}, '%')</if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="selectById" resultType="com.wxj.entity.Type">
+        select
+        <include refid="Base_Column_List"/>
+        from type
+        where id = #{id}
+    </select>
+
+    <select id="selectByName" resultType="com.wxj.entity.Type">
+        select
+        <include refid="Base_Column_List"/>
+        from type
+        where name = #{name}
+    </select>
+
+    <delete id="deleteById">
+        delete
+        from type
+        where id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.wxj.entity.Type" useGeneratedKeys="true">
+        insert into type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">name,</if>
+            <if test="name != null">name,</if>
+            <if test="descr != null">descr,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="descr != null">#{descr},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.wxj.entity.Type">
+        update type
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="descr != null">
+                descr = #{descr},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

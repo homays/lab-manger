@@ -66,6 +66,7 @@ const routes = [
                 meta: {name: '个人信息'},
                 component: () => import('../views/manager/StudentPerson')
             },
+            {path: 'type', name: 'Type', meta: {name: '实验室分类'}, component: () => import('../views/manager/Type')},
         ]
     },
     {
