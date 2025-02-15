@@ -39,10 +39,12 @@
             <el-button plain type="warning" size="mini" @click="changeStatus(scope.row, '已结束')"
                        v-if="scope.row.dostatus === '使用中'">结束使用
             </el-button>
+            <el-button plain type="warning" size="mini" @click="initDialog(scope.row)"
+                       v-if="user.role === 'STUDENT' && scope.row.dostatus === '已结束'">我要报修
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
-
       <div class="pagination">
         <el-pagination
             background
@@ -56,22 +58,18 @@
       </div>
     </div>
 
-
-    <el-dialog title="信息" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
+    <el-dialog title="报修反馈信息" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false"
+               destroy-on-close>
       <el-form label-width="100px" style="padding-right: 50px" :model="form" :rules="rules" ref="formRef">
-        <el-form-item prop="title" label="标题">
-          <el-input v-model="form.title" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item prop="content" label="内容">
-          <el-input type="textarea" :rows="5" v-model="form.content" autocomplete="off"></el-input>
+        <el-form-item prop="name" label="报修说明">
+          <el-input type="textarea" :rows="5" v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="fromVisible = false">取 消</el-button>
-        <el-button type="primary" @click="save">确 定</el-button>
+        <el-button type="primary" @click="submit">确 定</el-button>
       </div>
     </el-dialog>
-
 
   </div>
 </template>
@@ -89,7 +87,11 @@ export default {
       fromVisible: false,
       form: {},
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
-      rules: {},
+      rules: {
+        name: [
+          {required: true, message: '请输入报修说明', trigger: 'blur'},
+        ]
+      },
       ids: []
     }
   },
@@ -151,6 +153,32 @@ export default {
     },
     handleCurrentChange(pageNum) {
       this.load(pageNum)
+    },
+    initDialog(row) {
+      this.form = JSON.parse(JSON.stringify(row))
+      this.fromVisible = true
+    },
+    submit() {
+       this.$refs.formRef.validate((valid) => {
+        if (valid) {
+          // 提交报修信息
+          let data = {
+            name: this.form.name,
+            studentId: this.user.id,
+            labId: this.form.labId,
+            labadminId: this.form.labadminId,
+            status: '待处理'
+          }
+          this.$request.post('/fix/add', data).then(res => {
+            if (res.code === '200') {
+              this.$message.success('操作成功')
+              this.fromVisible = false
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
+        }
+      });
     },
   }
 }

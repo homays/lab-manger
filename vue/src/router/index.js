@@ -80,6 +80,7 @@ const routes = [
                 meta: {name: '预约记录'},
                 component: () => import('../views/manager/Reserve')
             },
+            {path: 'fix', name: 'Fix', meta: {name: '报修记录'}, component: () => import('../views/manager/Fix')},
         ]
     },
     {
