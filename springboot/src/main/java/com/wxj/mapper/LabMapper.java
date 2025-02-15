@@ -34,4 +34,7 @@ public interface LabMapper {
 
     @Select("select count(*) from lab where status = #{status}")
     long selectCount(String status);
+
+    @Select("select * from lab where type_id = #{typeId}")
+    List<Lab> selectByTypeId(Integer typeId);
 }

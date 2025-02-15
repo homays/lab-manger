@@ -4,8 +4,10 @@ import cn.hutool.core.util.ObjectUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wxj.common.enums.ResultCodeEnum;
+import com.wxj.entity.Lab;
 import com.wxj.entity.Type;
 import com.wxj.exception.CustomException;
+import com.wxj.mapper.LabMapper;
 import com.wxj.mapper.TypeMapper;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,8 @@ public class TypeService {
 
     @Resource
     private TypeMapper typeMapper;
+    @Resource
+    private LabMapper labMapper;
 
     /**
      * 新增
@@ -50,6 +54,11 @@ public class TypeService {
      */
     public void updateById(Type type) {
         typeMapper.updateById(type);
+        List<Lab> labList = labMapper.selectByTypeId(type.getId());
+        for (Lab item : labList) {
+            item.setLabadminId(type.getLabadminId());
+            labMapper.updateById(item);
+        }
     }
 
     /**
