@@ -1,6 +1,7 @@
 package com.wxj.mapper;
 
 import com.wxj.entity.Lab;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -31,4 +32,6 @@ public interface LabMapper {
     */
     List<Lab> selectAll(Lab lab);
 
+    @Select("select count(*) from lab where status = #{status}")
+    long selectCount(String status);
 }
