@@ -47,7 +47,7 @@
 
     <el-dialog title="信息" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
       <el-form label-width="100px" style="padding-right: 50px" :model="form" :rules="rules" ref="formRef">
-        <el-form-item prop="name" label="实验室名称">
+        <el-form-item prop="name" label="实验室编号">
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item prop="descr" label="实验室介绍">
@@ -60,7 +60,7 @@
                           placeholder="请选择时间">
           </el-time-picker>
         </el-form-item>
-        <el-form-item prop="start" label="开始时间">
+        <el-form-item prop="start" label="闭门时间">
           <el-time-picker style="width: 100%"
                           v-model="form.end"
                           value-format="HH:mm:ss"

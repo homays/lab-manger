@@ -39,7 +39,7 @@ public class LabService {
             throw new CustomException(ResultCodeEnum.TYPE_LABADMIN_NO_ERROR);
         }
         lab.setLabadminId(type.getLabadminId());
-        lab.setStatus(StatusEnum.OK.name());
+        lab.setStatus(StatusEnum.OK.getDesc());
         labMapper.insert(lab);
     }
 
