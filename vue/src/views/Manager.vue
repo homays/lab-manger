@@ -48,6 +48,7 @@
             <el-menu-item index="/labStudent" v-else>实验室信息</el-menu-item>
             <el-menu-item index="/reserve">预约记录</el-menu-item>
             <el-menu-item index="/fix">报修记录</el-menu-item>
+            <el-menu-item index="/checks">检修记录</el-menu-item>
           </el-submenu>
 
           <el-submenu index="user">

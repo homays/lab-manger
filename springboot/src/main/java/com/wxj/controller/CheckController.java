@@ -2,26 +2,26 @@ package com.wxj.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.wxj.common.Result;
-import com.wxj.entity.Fix;
-import com.wxj.service.FixService;
+import com.wxj.entity.Checks;
+import com.wxj.service.CheckService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-@RequestMapping("/fix")
-public class FixController {
+@RequestMapping("/checks")
+public class CheckController {
 
     @Resource
-    private FixService fixService;
+    private CheckService checkService;
 
     /**
      * 新增
      */
     @PostMapping("/add")
-    public Result add(@RequestBody Fix fix) {
-        fixService.add(fix);
+    public Result add(@RequestBody Checks checks) {
+        checkService.add(checks);
         return Result.success();
     }
 
@@ -30,7 +30,7 @@ public class FixController {
      */
     @DeleteMapping("/delete/{id}")
     public Result deleteById(@PathVariable Integer id) {
-        fixService.deleteById(id);
+        checkService.deleteById(id);
         return Result.success();
     }
 
@@ -39,7 +39,7 @@ public class FixController {
      */
     @DeleteMapping("/delete/batch")
     public Result deleteBatch(@RequestBody List<Integer> ids) {
-        fixService.deleteBatch(ids);
+        checkService.deleteBatch(ids);
         return Result.success();
     }
 
@@ -47,9 +47,8 @@ public class FixController {
      * 修改
      */
     @PutMapping("/update")
-    public Result updateById(@RequestBody Fix fix) {
-        fix.setFixtime(fix.getTime());
-        fixService.updateById(fix);
+    public Result updateById(@RequestBody Checks checks) {
+        checkService.updateById(checks);
         return Result.success();
     }
 
@@ -58,16 +57,16 @@ public class FixController {
      */
     @GetMapping("/selectById/{id}")
     public Result selectById(@PathVariable Integer id) {
-        Fix fix = fixService.selectById(id);
-        return Result.success(fix);
+        Checks checks = checkService.selectById(id);
+        return Result.success(checks);
     }
 
     /**
      * 查询所有
      */
     @GetMapping("/selectAll")
-    public Result selectAll(Fix fix ) {
-        List<Fix> list = fixService.selectAll(fix);
+    public Result selectAll(Checks checks) {
+        List<Checks> list = checkService.selectAll(checks);
         return Result.success(list);
     }
 
@@ -75,10 +74,10 @@ public class FixController {
      * 分页查询
      */
     @GetMapping("/selectPage")
-    public Result selectPage(Fix fix,
+    public Result selectPage(Checks checks,
                              @RequestParam(defaultValue = "1") Integer pageNum,
                              @RequestParam(defaultValue = "10") Integer pageSize) {
-        PageInfo<Fix> page = fixService.selectPage(fix, pageNum, pageSize);
+        PageInfo<Checks> page = checkService.selectPage(checks, pageNum, pageSize);
         return Result.success(page);
     }
 

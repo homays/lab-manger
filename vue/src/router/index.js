@@ -81,6 +81,12 @@ const routes = [
                 component: () => import('../views/manager/Reserve')
             },
             {path: 'fix', name: 'Fix', meta: {name: '报修记录'}, component: () => import('../views/manager/Fix')},
+            {
+                path: 'checks',
+                name: 'Check',
+                meta: {name: '检修记录'},
+                component: () => import('../views/manager/Check')
+            },
         ]
     },
     {

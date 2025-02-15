@@ -171,7 +171,7 @@ export default {
           }
           this.$request.post('/fix/add', data).then(res => {
             if (res.code === '200') {
-              this.$message.success('操作成功')
+              this.$message.success('感谢你的反馈，我们会尽快处理')
               this.fromVisible = false
             } else {
               this.$message.error(res.msg)
